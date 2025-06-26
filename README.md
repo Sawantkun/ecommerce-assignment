@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛍️ E-commerce Product Showcase
 
-## Getting Started
+A modern and responsive product showcase web application built with **Next.js**, **Tailwind CSS**, and **Framer Motion**. It features animated UI components, dynamic filtering, sorting, and a mobile-friendly drawer filter.
 
-First, run the development server:
+## 🚀 Features
+
+* 🌐 Server-side rendering using **Next.js**
+* 🎨 Stylish and responsive UI with **Tailwind CSS**
+* ⚙️ Functional sidebar filter with:
+
+  * Category selection
+  * Price range input
+  * Rating filter
+* 📱 Mobile support with a **sliding drawer filter panel**
+* ✨ Smooth animations using **Framer Motion**
+* 🔄 Sort options for filtering by price or rating
+* ⚡ Data fetched from [FakeStoreAPI](https://fakestoreapi.com/)
+
+## 📂 Folder Structure
+
+```
+ecommerce-assignment/
+├── components/
+│   ├── FilterSidebar.tsx
+│   ├── ProductCard.tsx
+│   └── SortOptions.tsx
+├── pages/
+│   └── index.tsx
+├── public/
+├── styles/
+├── types/
+│   └── product.ts
+├── utils/
+├── README.md
+└── ...
+```
+
+## 🛠️ Tech Stack
+
+* **Framework:** [Next.js](https://nextjs.org/)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **Animation:** [Framer Motion](https://www.framer.com/motion/)
+* **API:** [Fake Store API](https://fakestoreapi.com/)
+
+## 🧑‍💻 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/sawantkun/ecommerce-assignment.git
+cd ecommerce-assignment
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+# or
+yarn
+```
+
+### 3. Run the development server
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000` to see the app in action.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 Live Demo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🔗 [Live Site](https://ecommerce-assignment-ivory.vercel.app/)
+🔗 [GitHub Repository](https://github.com/Sawantkun/ecommerce-assignment)
 
-## Learn More
+## 📝 Author
 
-To learn more about Next.js, take a look at the following resources:
+**Sawant Kumar**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📄 License
 
-## Deploy on Vercel
+This project is open-source and available under the [MIT License](LICENSE).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Let me know if you'd like to add deployment instructions (Vercel), contribution guidelines, or environment variable configs.

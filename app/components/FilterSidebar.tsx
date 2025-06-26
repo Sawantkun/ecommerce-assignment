@@ -1,6 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Product } from "../types/product";
 
 interface FilterSidebarProps {
@@ -8,13 +9,14 @@ interface FilterSidebarProps {
   setFiltered: (products: Product[]) => void;
 }
 
-export default function FilterSidebar({
+export default function DrawerFilterSidebar({
   products,
   setFiltered,
 }: FilterSidebarProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
   const [minRating, setMinRating] = useState(0);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const categories = [...new Set(products.map((p) => p.category))];
 
@@ -64,14 +66,13 @@ export default function FilterSidebar({
     setMinRating(0);
   };
 
-  return (
+  const FilterContent = () => (
     <motion.aside
       initial={{ x: -50, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="w-full lg:w-72 bg-white/90 backdrop-blur-lg rounded-2xl shadow-xl border border-gray-200/50 p-6 h-fit sticky top-24"
     >
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
           Filters
@@ -86,6 +87,7 @@ export default function FilterSidebar({
         </motion.button>
       </div>
 
+      {/* Categories */}
       <div className="mb-8">
         <h4 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
           Categories
@@ -138,6 +140,7 @@ export default function FilterSidebar({
         </div>
       </div>
 
+      {/* Price Range */}
       <div className="mb-8">
         <h4 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
           Price Range
@@ -155,7 +158,7 @@ export default function FilterSidebar({
                     min: Number(e.target.value),
                   }))
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                 min="0"
               />
             </div>
@@ -170,34 +173,30 @@ export default function FilterSidebar({
                     max: Number(e.target.value),
                   }))
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                 min="0"
               />
             </div>
           </div>
-          <div className="text-center text-sm text-gray-600">
-            ${priceRange.min} - ${priceRange.max}
-          </div>
         </div>
       </div>
 
+      {/* Rating */}
       <div className="mb-6">
         <h4 className="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wide">
           Minimum Rating
         </h4>
         <div className="space-y-3">
           {[4, 3, 2, 1].map((rating) => (
-            <motion.label
+            <label
               key={rating}
-              whileHover={{ x: 5 }}
-              className="flex items-center space-x-3 cursor-pointer group"
+              className="flex items-center space-x-3 cursor-pointer"
             >
               <input
                 type="radio"
                 name="rating"
                 checked={minRating === rating}
                 onChange={() => setMinRating(rating)}
-                className="w-4 h-4 text-blue-600 focus:ring-blue-500"
               />
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, i) => (
@@ -212,35 +211,71 @@ export default function FilterSidebar({
                 ))}
                 <span className="text-sm text-gray-600 ml-2">& up</span>
               </div>
-            </motion.label>
+            </label>
           ))}
-          <motion.label
-            whileHover={{ x: 5 }}
-            className="flex items-center space-x-3 cursor-pointer group"
-          >
+          <label className="flex items-center space-x-3 cursor-pointer">
             <input
               type="radio"
               name="rating"
               checked={minRating === 0}
               onChange={() => setMinRating(0)}
-              className="w-4 h-4 text-blue-600 focus:ring-blue-500"
             />
             <span className="text-sm text-gray-600">All Ratings</span>
-          </motion.label>
+          </label>
         </div>
       </div>
-
-      {(selectedCategories.length > 0 || minRating > 0) && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-6 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200/50"
-        >
-          <p className="text-sm text-blue-700 font-medium">
-            {selectedCategories.length + (minRating > 0 ? 1 : 0)} active filters
-          </p>
-        </motion.div>
-      )}
     </motion.aside>
+  );
+
+  return (
+    <>
+      {/* Mobile button */}
+      <div className="lg:hidden mb-4">
+        <button
+          onClick={() => setIsDrawerOpen(true)}
+          className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-xl shadow-lg font-semibold"
+        >
+          Open Filters
+        </button>
+      </div>
+
+      {/* Desktop sidebar */}
+      <div className="hidden lg:block">
+        <FilterContent />
+      </div>
+
+      {/* Drawer */}
+      <AnimatePresence>
+        {isDrawerOpen && (
+          <>
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-xl p-6 overflow-y-auto"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold">Filters</h3>
+                <button
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="text-gray-500 hover:text-red-600"
+                >
+                  ✕
+                </button>
+              </div>
+              <FilterContent />
+            </motion.div>
+            <motion.div
+              className="fixed inset-0 bg-black/40 z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsDrawerOpen(false)}
+            />
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
