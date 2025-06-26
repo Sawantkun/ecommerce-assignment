@@ -11,7 +11,7 @@ A modern and responsive product showcase web application built with **Next.js**,
   * Category selection
   * Price range input
   * Rating filter
-* 📱 Mobile support with a **sliding drawer filter panel**
+* 📱 Mobile support with a **Progressively Responsive Layout**
 * ✨ Smooth animations using **Framer Motion**
 * 🔄 Sort options for filtering by price or rating
 * ⚡ Data fetched from [FakeStoreAPI](https://fakestoreapi.com/)
